@@ -4,4 +4,9 @@ from quailbox.profile.fritzbox import Fritzbox
 
 
 def test_fritzbox():
-    assert Fritzbox()
+    fritz = Fritzbox("data/profiles/fritzbox.yml")
+    assert fritz.config == {
+        "arch": "arm",
+        "memory": 512,
+        "machine": "virt",
+    }

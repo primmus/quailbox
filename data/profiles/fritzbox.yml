@@ -1,1 +1,4 @@
 # Copyright (C) 2018 Cuckoo Foundation.
+arch: arm
+memory: 512
+machine: virt

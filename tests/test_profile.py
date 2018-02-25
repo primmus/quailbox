@@ -4,4 +4,5 @@ from quailbox.core.profile import Profile
 
 
 def test_profile():
-    assert Profile()
+    p = Profile(None)
+    assert p.config == {}
