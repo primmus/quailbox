@@ -1,5 +1,7 @@
 # Copyright (C) 2018 Cuckoo Foundation.
 
+import subprocess
+
 
 class Qemu(object):
     whitelist = [
@@ -24,8 +26,14 @@ class Qemu(object):
         )
 
     def run(self):
+        cmd = "quailbox-qemu %s" % self._format_opts()
+
         # TODO implement streaming console
-        self.console.append("[+] quailbox-qemu %s" % self._format_opts())
+        self.console.append("[+] %s" % cmd)
+
+        # TODO implement quailbox-qemu command for argument translation
+        subprocess.call(cmd, shell=True)
+
         return self.console
 
 
