@@ -2,3 +2,6 @@
 arch: arm
 memory: 512
 machine: virt
+
+# TODO #3 add support for kernel building
+kernel: 4.1.17-fr1tz

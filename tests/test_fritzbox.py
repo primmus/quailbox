@@ -9,4 +9,5 @@ def test_fritzbox():
         "arch": "arm",
         "memory": 512,
         "machine": "virt",
+        "kernel": "4.1.17-fr1tz",
     }
