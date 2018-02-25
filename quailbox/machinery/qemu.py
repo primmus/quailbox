@@ -2,5 +2,9 @@
 
 
 class Qemu(object):
-    def __init__(self):
-        pass
+    def __init__(self, profile=None):
+        self.profile = profile
+        self.console = None
+
+    def run(self):
+        return self.console
