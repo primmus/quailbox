@@ -10,8 +10,10 @@ def test_fritzbox():
         "arch": "arm",
         "image": "data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image",
         "opts": {
+            "append": "console=ttyS0 debug",
             "kernel": "data/kernels/4.1.17-fr1tz",
             "M": "virt",
             "m": 512,
+            "serial": "stdio",
         }
     }

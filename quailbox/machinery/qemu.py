@@ -7,7 +7,7 @@ import subprocess
 class Qemu(object):
     argv0 = "quailbox-qemu"
     whitelist = [
-        "kernel", "M", "m"
+        "append", "kernel", "M", "m", "serial",
     ]
 
     def __init__(self, profile=None):
@@ -16,9 +16,6 @@ class Qemu(object):
 
         if not self._verify_config():
             raise QemuException
-
-        self.config["opts"]["append"] = "console=ttyS0, debug"
-        self.config["opts"]["serial"] = "stdio"
 
         self.opts = self._format_opts()
 
