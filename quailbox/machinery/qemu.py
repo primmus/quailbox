@@ -11,8 +11,9 @@ class Qemu(object):
     ]
 
     def __init__(self, profile=None):
-        self.profile = profile
         self.console = []
+        self.procs = {}
+        self.profile = profile
 
         if not self._verify_config():
             raise QemuException
@@ -39,8 +40,13 @@ class Qemu(object):
             stderr=subprocess.PIPE,
         )
 
-        return q.stdout
+        self.procs[q.pid] = q
+        return q.pid, q.stdout
 
+    def stop(self, pid):
+        proc = self.procs.get(pid)
+        if proc:
+            proc.kill()
 
 class QemuException(Exception):
     pass
