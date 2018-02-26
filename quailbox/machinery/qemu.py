@@ -1,9 +1,11 @@
 # Copyright (C) 2018 Cuckoo Foundation.
 
+import pipes
 import subprocess
 
 
 class Qemu(object):
+    argv0 = "quailbox-qemu"
     whitelist = [
         "arch", "kernel", "machine", "memory"
     ]
@@ -15,28 +17,27 @@ class Qemu(object):
         if not self._verify_config():
             raise QemuException
 
+        self.cmdline = "%s %s" % (self.argv0, self._format_opts())
+
     def _verify_config(self):
         self.config = self.profile.config
         return all(c in self.whitelist for c in self.config.keys())
 
     def _format_opts(self):
         return " ".join(
-            # TODO sanitize argv values (cmdline injection)
-            "--%s %s" % (k, v) for k, v in self.config.iteritems()
+            "--%s %s" % (
+                k, pipes.quote(str(v))
+            ) for k, v in self.config.iteritems()
         )
 
     def run(self):
-        cmd = "quailbox-qemu %s" % self._format_opts()
-
         # TODO implement streaming console
-        self.console.append("[+] %s" % cmd)
+        self.console.append("[+] %s" % self.cmdline)
 
         # TODO implement quailbox-qemu command for argument translation
-        subprocess.call(cmd, shell=True)
-
+        subprocess.call(self.cmdline, shell=True)
         return self.console
 
 
 class QemuException(Exception):
     pass
-
