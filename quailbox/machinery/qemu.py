@@ -33,7 +33,7 @@ class Qemu(object):
         return opts
 
     def _log_console(self, buf):
-        self.console.extend([l for l in buf.split("\n") if l])
+        self.console.extend([l for l in buf.split("\r\n") if l])
 
     def run(self):
         q = subprocess.Popen(
