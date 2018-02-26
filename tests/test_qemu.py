@@ -14,9 +14,5 @@ def test_qemu():
     assert console.readline() == (
         "[    0.000000] Booting Linux on physical CPU 0x0\r\n"
     )
-    assert console.readline() == (
-        "[    0.000000] Linux version 4.1.17+ (sj0rz@kookoo)"
-        " (gcc version 5.3.0 (GCC) ) #1 Mon Oct 2 14:03:05 CEST 2017\r\n"
-    )
 
     qemu.stop(pid)
