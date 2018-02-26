@@ -17,14 +17,17 @@ class Fritzbox(Profile):
         if image:
             self.image = Image(image)
 
-        self.config["opts"]["device"] = "virtio-blk-device,drive=rootfs"
-        self.config["opts"]["drive"] = (
-            "if=none,file=%s,format=raw,id=rootfs"
-            % self.get_rootfs()
-        )
+        self._set_rootfs_opts(self.get_rootfs())
 
     def get_rootfs(self):
         return self.image.get_rootfs()
+
+    def _set_rootfs_opts(self, rootfs_file):
+        self.config["opts"]["device"] = "virtio-blk-device,drive=rootfs"
+        self.config["opts"]["drive"] = (
+            "if=none,file=%s,format=raw,id=rootfs"
+            % rootfs_file
+        )
 
 
 class Image(object):
