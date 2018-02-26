@@ -3,8 +3,7 @@
 from quailbox.profile.fritzbox import Fritzbox
 
 
-# TODO #2 implement fritzbox poc
-def test_fritzbox():
+def test_config():
     fritz = Fritzbox("data/profiles/fritzbox.yml")
     assert fritz.config == {
         "arch": "arm",
@@ -17,3 +16,11 @@ def test_fritzbox():
             "serial": "stdio",
         }
     }
+
+
+def test_rootfs():
+    fritz = Fritzbox("data/profiles/fritzbox.yml")
+    assert fritz.image.checksum == "20c3570af8c65996e0ee44a9bc571e75"
+    assert fritz.get_rootfs() == (
+        "/tmp/20c3570af8c65996e0ee44a9bc571e75/var/tmp/filesystem.image"
+    )
