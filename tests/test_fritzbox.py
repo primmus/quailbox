@@ -7,7 +7,11 @@ from quailbox.profile.fritzbox import Fritzbox
 def test_fritzbox():
     fritz = Fritzbox("data/profiles/fritzbox.yml")
     assert fritz.config == {
-        "kernel": "data/kernels/4.1.17-fr1tz",
-        "M": "virt",
-        "m": 512,
+        "arch": "arm",
+        "image": "data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image",
+        "opts": {
+            "kernel": "data/kernels/4.1.17-fr1tz",
+            "M": "virt",
+            "m": 512,
+        }
     }
