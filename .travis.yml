@@ -1,0 +1,22 @@
+language: python
+
+python:
+    - 2.7
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install qemu-system-arm
+  - sudo ln -s $(which qemu-system-arm) /bin/quailbox-qemu
+
+install:
+  - pip install -U pip setuptools
+  - python setup.py sdist
+  - pip install -e .
+  - pip install pytest pytest-cov codecov coveralls
+
+script:
+    - pytest --cov=quailbox
+
+after_success:
+  - coveralls
+  - codecov --token=07697cf6-6765-45af-b92b-802441c409f6
