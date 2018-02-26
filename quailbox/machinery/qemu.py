@@ -39,11 +39,7 @@ class Qemu(object):
             stderr=subprocess.PIPE,
         )
 
-        log, err = q.communicate()
-        self._log_console(log)
-        self._log_console(err)
-
-        return self.console
+        return q.stdout
 
 
 class QemuException(Exception):
