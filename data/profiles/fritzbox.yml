@@ -1,9 +1,7 @@
 # Copyright (C) 2018 Cuckoo Foundation.
-arch: arm
 
-# TODO #3 add support for kernel building
-kernel: 4.1.17-fr1tz
-
-machine: virt
-memory: 512
+# arch: arm
+kernel: data/kernels/4.1.17-fr1tz
+M: virt
+m: 512
 

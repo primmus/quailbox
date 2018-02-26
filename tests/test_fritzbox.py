@@ -7,8 +7,7 @@ from quailbox.profile.fritzbox import Fritzbox
 def test_fritzbox():
     fritz = Fritzbox("data/profiles/fritzbox.yml")
     assert fritz.config == {
-        "arch": "arm",
-        "memory": 512,
-        "machine": "virt",
-        "kernel": "4.1.17-fr1tz",
+        "kernel": "data/kernels/4.1.17-fr1tz",
+        "M": "virt",
+        "m": 512,
     }
