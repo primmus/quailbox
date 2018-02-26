@@ -11,6 +11,7 @@ def test_config():
         "opts": {
             "append": "console=ttyS0 rw root=/dev/vda firmadyne.syscall=0",
             "device": "virtio-blk-device,drive=rootfs",
+            "display": "none",
             "drive": (
                 "if=none,file=/tmp/20c3570af8c65996e0ee44a9bc571e75/"
                 "var/tmp/filesystem.image,format=raw,id=rootfs"

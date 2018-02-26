@@ -10,7 +10,6 @@ def test_qemu():
     assert qemu.argv0 == "quailbox-qemu"
 
     pid, console = qemu.run()
-
     assert console.readline() == (
         "[    0.000000] Booting Linux on physical CPU 0x0\r\n"
     )

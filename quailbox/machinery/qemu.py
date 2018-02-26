@@ -7,7 +7,7 @@ import subprocess
 class Qemu(object):
     argv0 = "quailbox-qemu"
     whitelist = [
-        "append", "device", "drive", "kernel", "M", "m", "serial",
+        "append", "device", "drive", "kernel", "M", "m", "display", "serial",
     ]
 
     def __init__(self, profile=None):
