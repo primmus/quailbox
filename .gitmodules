@@ -1,0 +1,3 @@
+[submodule "quailbox-qemu"]
+    path = quailbox-qemu
+    url = git://github.com/daanfs/quailbox-qemu
