@@ -7,7 +7,7 @@ import setuptools
 
 setuptools.setup(
     name="quailbox",
-    version="0.1.1",
+    version="0.1.3",
     author="Daan Spitz",
     author_email="daan@cuckoo.sh",
     packages=[
@@ -33,6 +33,7 @@ setuptools.setup(
     entry_points={
         "console_scripts": [
             "quailbox = quailbox.main:main",
+            "quailbox-qemu = quailbox.main:qemu",
         ],
     },
     install_requires=[

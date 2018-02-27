@@ -4,9 +4,8 @@ IoT honeypotting and fuzzing framework for Cuckoo/QEMU.
 ### Install
 ```
 sudo apt install qemu-system-arm
-sudo ln -s $(which qemu-system-arm) /usr/bin/quailbox-qemu
+pip install quailbox
 git clone https://github.com/daanfs/quailbox && cd quailbox
-virtualenv v; . v/bin/activate; pip install quailbox
 ```
 
 ### Usage

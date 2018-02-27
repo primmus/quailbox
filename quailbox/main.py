@@ -72,3 +72,9 @@ def main(profile, interactive):
     if has_stdin:
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_tty)
     q.stop(console.pid)
+
+
+def qemu():
+    argv = ["/usr/bin/qemu-system-arm"]
+    argv.extend(sys.argv[1:])
+    os.execve(argv[0], argv, {})
