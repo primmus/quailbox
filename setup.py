@@ -7,7 +7,7 @@ import setuptools
 
 setuptools.setup(
     name="quailbox",
-    version="0.1",
+    version="0.1.1",
     author="Daan Spitz",
     author_email="daan@cuckoo.sh",
     packages=[

@@ -1,6 +1,6 @@
 # Copyright (C) 2018 Cuckoo Foundation.
 
-import pipes
+import os
 import subprocess
 
 
@@ -33,20 +33,32 @@ class Qemu(object):
     def _log_console(self, buf):
         self.console.extend([l for l in buf.split("\r\n") if l])
 
-    def run(self):
-        q = subprocess.Popen(
-            self.opts,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
+    def run(self, slave_fd=None):
+        if slave_fd:
+            q = subprocess.Popen(
+                self.opts,
+                preexec_fn=os.setsid,
+                stdin=slave_fd,
+                stdout=slave_fd,
+                stderr=slave_fd,
+                universal_newlines=True,
+            )
+        else:
+            q = subprocess.Popen(
+                self.opts,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+            )
 
         self.procs[q.pid] = q
-        return q.pid, q.stdout
+        return q
 
     def stop(self, pid):
         proc = self.procs.get(pid)
         if proc:
             proc.kill()
+
 
 class QemuException(Exception):
     pass

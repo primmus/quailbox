@@ -9,9 +9,9 @@ def test_qemu():
     assert isinstance(qemu.profile, Fritzbox)
     assert qemu.argv0 == "quailbox-qemu"
 
-    pid, console = qemu.run()
-    assert console.readline() == (
-        "[    0.000000] Booting Linux on physical CPU 0x0\r\n"
+    console = qemu.run()
+    assert console.stdout.readline() == (
+        "[    0.000000] Booting Linux on physical CPU 0x0\n"
     )
 
-    qemu.stop(pid)
+    qemu.stop(console.pid)

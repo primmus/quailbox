@@ -15,10 +15,11 @@ Usage: quailbox [OPTIONS]
 
 Options:
   --profile TEXT  Name of profile to run.  [required]
+  --interactive   Enable interactive mode (ESC to quit).
   --help          Show this message and exit.
-
 ```
-##### `quailbox --profile fritzbox`
+
+##### `quailbox --profile fritzbox --interactive`
 ```
 [+] quailbox profile fritzbox
 [+] ----------------------------- quailbox console -----------------------------
@@ -32,4 +33,11 @@ Options:
 [    0.000000] psci: PSCIv0.2 detected in firmware.
 [    0.000000] psci: Using standard PSCI v0.2 function IDs
 [    0.000000] CPU: All CPU(s) started in SVC mode.
+[...]
+
+# hostname
+fritz.box
+# id
+uid=0(root) gid=0(root)
+ 
 ```

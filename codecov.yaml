@@ -1,0 +1,10 @@
+# Copyright (C) 2018 Cuckoo Foundation.
+coverage:
+  precision: 2
+  round: down
+  range: 70...100
+  status:
+    patch: off
+    project:
+      default:
+        threshold: 20%
