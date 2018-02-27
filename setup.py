@@ -36,6 +36,7 @@ setuptools.setup(
         ],
     },
     install_requires=[
+        "click==6.7",
         "glob2==0.6",
         "mock==2.0.0",
         "PyYAML==3.12",
