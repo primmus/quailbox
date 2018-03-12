@@ -23,6 +23,29 @@ from quailbox.profile.fritzbox import Fritzbox
     default=False, required=False, is_flag=True,
 )
 def main(profile, interactive):
+    old_tty = None
+    p = load_profile(profile)
+    has_stdin = isinstance(sys.stdin, file)
+
+    q = Qemu(p)
+    if has_stdin:
+        old_tty = termios.tcgetattr(sys.stdin)
+
+    if interactive:
+        tty.setraw(sys.stdin.fileno())
+        master_fd, slave_fd = pty.openpty()
+        console = q.run(slave_fd)
+        interactive_mode(console, master_fd)
+    else:
+        console = q.run()
+        bootlog_mode(console)
+
+    if has_stdin:
+        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_tty)
+    q.stop(console.pid)
+
+
+def load_profile(profile):
     profile = os.path.basename(profile).split(".")[0]
     config = "data/profiles/%s.yml" % os.path.basename(profile)
 
@@ -36,42 +59,30 @@ def main(profile, interactive):
         print "[-] quailbox failed to load profile: %s" % profile
         sys.exit(-1)
 
-    slave_fd = None
-    has_stdin = isinstance(sys.stdin, file)
+    return p
 
-    if has_stdin:
-        old_tty = termios.tcgetattr(sys.stdin)
 
-    if interactive:
-        tty.setraw(sys.stdin.fileno())
-        master_fd, slave_fd = pty.openpty()
+def interactive_mode(console, master_fd):
+    while console.poll() is None:
+        r, w, e = select.select([sys.stdin, master_fd], [], [])
+        if sys.stdin in r:
+            d = os.read(sys.stdin.fileno(), 10240)
 
-    q = Qemu(p)
-    console = q.run(slave_fd)
+            # ESC key to quit
+            if d[0] == "\x1b":
+                break
 
-    if not interactive:
-        print "[+] {0} quailbox console {0}".format("-" * 29)
-        for _ in xrange(10):
-            print console.stdout.readline().rstrip("\r\n")[:79]
-    else:
-        while console.poll() is None:
-            r, w, e = select.select([sys.stdin, master_fd], [], [])
-            if sys.stdin in r:
-                d = os.read(sys.stdin.fileno(), 10240)
+            os.write(master_fd, d)
+        elif master_fd in r:
+            o = os.read(master_fd, 10240)
+            if o:
+                os.write(sys.stdout.fileno(), o)
 
-                # ESC key to quit
-                if d[0] == "\x1b":
-                    break
 
-                os.write(master_fd, d)
-            elif master_fd in r:
-                o = os.read(master_fd, 10240)
-                if o:
-                    os.write(sys.stdout.fileno(), o)
-
-    if has_stdin:
-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_tty)
-    q.stop(console.pid)
+def bootlog_mode(console):
+    print "[+] {0} quailbox console {0}".format("-" * 29)
+    for _ in xrange(10):
+        print console.stdout.readline().rstrip("\r\n")[:79]
 
 
 def qemu():
