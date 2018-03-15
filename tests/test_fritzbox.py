@@ -8,10 +8,13 @@ def test_config():
     assert fritz.config == {
         "arch": "arm",
         "image": "data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image",
-        "init": "ifconfig lan 192.168.3.1\n",
+        "init": "ifconfig eth0 192.168.3.20\n",
         "opts": {
             "append": "console=ttyS0 rw root=/dev/vda firmadyne.syscall=0",
-            "device": "virtio-blk-device,drive=rootfs",
+            "device": [
+                "virtio-blk-device,drive=rootfs",
+                "virtio-net-device,netdev=net0",
+            ],
             "display": "none",
             "drive": (
                 "if=none,file=/tmp/20c3570af8c65996e0ee44a9bc571e75/"
@@ -20,6 +23,7 @@ def test_config():
             "kernel": "data/kernels/4.1.17-fr1tz",
             "M": "virt",
             "m": 512,
+            "netdev": "tap,ifname=tap_qemu,script=no,downscript=no,id=net0",
             "serial": "stdio",
         }
     }

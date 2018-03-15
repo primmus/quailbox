@@ -7,7 +7,8 @@ import subprocess
 class Qemu(object):
     argv0 = "quailbox-qemu"
     whitelist = [
-        "append", "device", "drive", "kernel", "M", "m", "display", "serial",
+        "append", "device", "display", "drive",
+        "kernel",  "M", "m", "netdev", "serial",
     ]
 
     def __init__(self, profile=None):
@@ -27,7 +28,11 @@ class Qemu(object):
     def _format_opts(self):
         opts = [self.argv0]
         for k, v in self.config["opts"].iteritems():
-            opts.extend(("-%s" % k, (str(v))))
+            if isinstance(v, list):
+                for o in v:
+                    opts.extend(("-%s" % k, (str(o))))
+            else:
+                opts.extend(("-%s" % k, (str(v))))
         return opts
 
     def _log_console(self, buf):

@@ -32,6 +32,7 @@ def main(profile, interactive):
         old_tty = termios.tcgetattr(sys.stdin)
 
     if interactive:
+        # TODO: properly handle signals
         tty.setraw(sys.stdin.fileno())
         master_fd, slave_fd = pty.openpty()
 

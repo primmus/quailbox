@@ -7,8 +7,30 @@ git:
   submodules: false
 
 before_install:
-  - sudo apt-get install qemu-system-arm
+  - sudo apt-get install qemu-system-arm bridge-utils uml-utilities
   - sudo ln -s $(which qemu-system-arm) /bin/quailbox-qemu
+  - |
+    BRIDGE=qemubr0
+    TAP=tap_qemu
+    NETWORK=192.168.3.0
+    NETMASK=255.255.255.0
+    GATEWAY=192.168.3.1
+    DHCPRANGE=192.168.3.2,192.168.3.254
+
+    setup_bridge_nat() {
+        if ! brctl show | grep "^$1" > /dev/null 2> /dev/null; then
+            sudo brctl addbr "$1"
+            sudo brctl stp "$1" off
+            sudo brctl setfd "$1" 0
+            sudo ifconfig "$1" "$GATEWAY" netmask "$NETMASK" up
+        fi
+    }
+
+    setup_bridge_nat "$BRIDGE"
+    sudo tunctl -b -u "$USER" -t "$TAP"
+    sudo ip link set "$TAP" master "$BRIDGE"
+    sudo ip link set dev "$TAP" up
+    sudo ip link set dev "$BRIDGE" up
 
 install:
   - pip install -U pip setuptools
