@@ -14,6 +14,6 @@ opts:
   kernel: data/kernels/4.1.17-fr1tz
   M: virt
   m: 512
-  # see data/scripts/fritz-ifup.sh
+  # see data/scripts/ifup.sh
   netdev: tap,ifname=tap_qemu,script=no,downscript=no,id=net0
-  serial: stdio
+  nographic:

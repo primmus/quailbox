@@ -1,11 +1,13 @@
 # Copyright (C) 2018 Cuckoo Foundation.
 
+import os
+
 from quailbox.profile.fritzbox import Fritzbox
 
 
 def test_config():
     fritz = Fritzbox("data/profiles/fritzbox.yml")
-    assert fritz.config == {
+    config = {
         "arch": "arm",
         "image": "data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image",
         "init": "ifconfig eth0 192.168.3.20\n",
@@ -24,9 +26,15 @@ def test_config():
             "M": "virt",
             "m": 512,
             "netdev": "tap,ifname=tap_qemu,script=no,downscript=no,id=net0",
-            "serial": "stdio",
+            "nographic": None,
         }
     }
+
+    if "TRAVIS" in os.environ:
+        del config["opts"]["nographic"]
+        config["opts"]["serial"] = "stdio"
+
+    assert fritz.config == config
 
 
 def test_rootfs():

@@ -8,7 +8,7 @@ class Qemu(object):
     argv0 = "quailbox-qemu"
     whitelist = [
         "append", "device", "display", "drive",
-        "kernel",  "M", "m", "netdev", "serial",
+        "kernel",  "M", "m", "netdev", "nographic", "serial",
     ]
 
     def __init__(self, profile=None):
@@ -31,8 +31,11 @@ class Qemu(object):
             if isinstance(v, list):
                 for o in v:
                     opts.extend(("-%s" % k, (str(o))))
+            elif v is None:
+                opts.append("-%s" % k)
             else:
                 opts.extend(("-%s" % k, (str(v))))
+
         return opts
 
     def _log_console(self, buf):

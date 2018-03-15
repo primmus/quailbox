@@ -39,7 +39,9 @@ install:
   - pip install pytest pytest-cov codecov coveralls
 
 script:
-    - pytest --cov=quailbox
+    - |
+      sed -i "s/nographic:/serial: stdio/g" data/profiles/fritzbox.yml
+    - pytest -vv --cov=quailbox
 
 after_success:
   - coveralls
