@@ -74,7 +74,8 @@ def interactive_mode(console, master_fd, init=None):
 
             # ESC key to quit
             if d[0] == "\x1b":
-                break
+                if len(d) == 1:
+                    break
 
             os.write(master_fd, d)
         elif master_fd in r:
