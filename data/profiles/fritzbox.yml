@@ -2,6 +2,8 @@
 
 arch: arm
 image: data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image
+init: |
+  ifconfig lan 192.168.3.1
 
 opts:
   append: console=ttyS0 rw root=/dev/vda firmadyne.syscall=0

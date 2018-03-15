@@ -34,8 +34,10 @@ def main(profile, interactive):
     if interactive:
         tty.setraw(sys.stdin.fileno())
         master_fd, slave_fd = pty.openpty()
+
         console = q.run(slave_fd)
-        interactive_mode(console, master_fd)
+        init = q.profile.config.get("init")
+        interactive_mode(console, master_fd, init)
     else:
         console = q.run()
         bootlog_mode(console)
@@ -62,9 +64,10 @@ def load_profile(profile):
     return p
 
 
-def interactive_mode(console, master_fd):
+def interactive_mode(console, master_fd, init=None):
+    booted = False
     while console.poll() is None:
-        r, w, e = select.select([sys.stdin, master_fd], [], [])
+        r, w, e = select.select([sys.stdin, master_fd], [], [], 2)
         if sys.stdin in r:
             d = os.read(sys.stdin.fileno(), 10240)
 
@@ -77,8 +80,20 @@ def interactive_mode(console, master_fd):
             o = os.read(master_fd, 10240)
             if o:
                 os.write(sys.stdout.fileno(), o)
+        else:
+            # When console goes quiet assume boot has completed.
+            # Boot completion should be properly detected using VMI.
+            if not booted:
+                print "\r[+] system boot complete\r"
+                booted = True
+                if init:
+                    print "\r[+] executing init script\r"
+                    os.write(master_fd, init)
 
 
+# TODO: keep this running as long as qemu runs
+# using console.poll(). Provide option to write
+# bootlog to file. Implement init script feeding.
 def bootlog_mode(console):
     print "[+] {0} quailbox console {0}".format("-" * 29)
     for _ in xrange(10):

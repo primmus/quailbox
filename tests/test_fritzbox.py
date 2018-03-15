@@ -8,6 +8,7 @@ def test_config():
     assert fritz.config == {
         "arch": "arm",
         "image": "data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image",
+        "init": "ifconfig lan 192.168.3.1\n",
         "opts": {
             "append": "console=ttyS0 rw root=/dev/vda firmadyne.syscall=0",
             "device": "virtio-blk-device,drive=rootfs",
