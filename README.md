@@ -21,7 +21,6 @@ Options:
 ##### `quailbox --profile fritzbox --interactive`
 ```
 [+] quailbox profile fritzbox
-[+] ----------------------------- quailbox console -----------------------------
 [    0.000000] Booting Linux on physical CPU 0x0
 [    0.000000] Linux version 4.1.17+ (sj0rz@kookoo) (gcc version 5.3.0 (GCC) ) 
 [    0.000000] CPU: ARMv7 Processor [412fc0f1] revision 1 (ARMv7), cr=10c5387d
@@ -32,11 +31,14 @@ Options:
 [    0.000000] psci: PSCIv0.2 detected in firmware.
 [    0.000000] psci: Using standard PSCI v0.2 function IDs
 [    0.000000] CPU: All CPU(s) started in SVC mode.
+
 [...]
 
-# hostname
-fritz.box
-# id
-uid=0(root) gid=0(root)
- 
+tty is "/dev/console"
+Serielles Terminal
+disable start/stop characters and flowcontrol
+[+] system boot complete
+[+] executing init script
+ifconfig eth0 192.168.3.20
+#  
 ```
