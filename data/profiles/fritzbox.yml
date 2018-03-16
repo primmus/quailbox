@@ -4,7 +4,9 @@ arch: arm
 image: data/images/FRITZ.Box_7581.en-de-es-it-fr-pl.152.06.85.image
 init: |
   ifconfig eth0 192.168.3.20
-
+  cd /tmp && wget 192.168.3.1:8000/gdbserver
+  chmod +x /tmp/gdbserver
+  /tmp/gdbserver --attach :5555 "$(pidof upnpd)"
 opts:
   append: console=ttyS0 rw root=/dev/vda firmadyne.syscall=0
   device:

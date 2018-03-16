@@ -8,7 +8,8 @@ class Qemu(object):
     argv0 = "quailbox-qemu"
     whitelist = [
         "append", "device", "display", "drive",
-        "kernel",  "M", "m", "netdev", "nographic", "serial",
+        "kernel",  "M", "m", "netdev", "nographic",
+        "serial", "smp",
     ]
 
     def __init__(self, profile=None):

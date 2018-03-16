@@ -85,11 +85,14 @@ def interactive_mode(console, master_fd, init=None):
             # When console goes quiet assume boot has completed.
             # Boot completion should be properly detected using VMI.
             if not booted:
+                print "\r----------------------------\r"
                 print "\r[+] system boot complete\r"
                 booted = True
                 if init:
                     print "\r[+] executing init script\r"
-                    os.write(master_fd, init)
+                    print "----------------------------\r"
+                    init_script = init[:-1].replace("\n", "; ")
+                    os.write(master_fd, init_script + "\r\n")
 
 
 # TODO: keep this running as long as qemu runs
